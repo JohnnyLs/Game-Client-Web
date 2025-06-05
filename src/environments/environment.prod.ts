@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://game-backend.onrender.com/api/'
+  apiBaseUrl: 'https://game-server-2.onrender.com/api/'
 };
