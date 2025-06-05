@@ -5,13 +5,17 @@
     <div class="chart-card">
       <h2>Top 5 Jugadores por Puntuación</h2>
       <div class="chart-container">
-        <canvas
+        <apx-chart
           *ngIf="showTopJugadoresChart"
-          baseChart
-          [data]="barChartTopJugadores"
-          [options]="barChartOptions"
-          [type]="barChartType"
-        ></canvas>
+          [series]="barChartTopJugadores.series"
+          [chart]="barChartTopJugadores.chart"
+          [xaxis]="barChartTopJugadores.xaxis"
+          [yaxis]="barChartTopJugadores.yaxis"
+          [plotOptions]="barChartTopJugadores.plotOptions"
+          [colors]="barChartTopJugadores.colors"
+          [title]="barChartTopJugadores.title"
+          [legend]="barChartTopJugadores.legend"
+        ></apx-chart>
       </div>
     </div>
 
@@ -32,13 +36,17 @@
         </div>
       </div>
       <div class="chart-container">
-        <canvas
+        <apx-chart
           *ngIf="showCategoriaChart"
-          baseChart
-          [data]="barChartCategoria"
-          [options]="barChartCategoriaOptions"
-          [type]="barChartType"
-        ></canvas>
+          [series]="barChartCategoria.series"
+          [chart]="barChartCategoria.chart"
+          [xaxis]="barChartCategoria.xaxis"
+          [yaxis]="barChartCategoria.yaxis"
+          [plotOptions]="barChartCategoria.plotOptions"
+          [colors]="barChartCategoria.colors"
+          [title]="barChartCategoria.title"
+          [legend]="barChartCategoria.legend"
+        ></apx-chart>
       </div>
     </div>
 
@@ -46,13 +54,17 @@
     <div class="chart-card">
       <h2>Jugadores con Más Tiempo Jugado</h2>
       <div class="chart-container">
-        <canvas
+        <apx-chart
           *ngIf="showHistoricoChart"
-          baseChart
-          [data]="barChartTiempoJugado"
-          [options]="barChartTiempoOptions"
-          [type]="barChartTiempoType"
-        ></canvas>
+          [series]="barChartTiempoJugado.series"
+          [chart]="barChartTiempoJugado.chart"
+          [xaxis]="barChartTiempoJugado.xaxis"
+          [yaxis]="barChartTiempoJugado.yaxis"
+          [plotOptions]="barChartTiempoJugado.plotOptions"
+          [colors]="barChartTiempoJugado.colors"
+          [title]="barChartTiempoJugado.title"
+          [legend]="barChartTiempoJugado.legend"
+        ></apx-chart>
       </div>
     </div>
 
@@ -77,7 +89,6 @@
         <table class="historico-table">
           <thead>
             <tr>
-              
               <th>Jugador</th>
               <th>Fecha Inicio</th>
               <th>Aciertos</th>
@@ -88,7 +99,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let partida of partidasFiltradas">
-              
               <td>{{ partida.nombrePerfil }}</td>
               <td>{{ partida.fechaInicio | date:'dd/MM/yyyy HH:mm' }}</td>
               <td>{{ partida.aciertosPartida }}</td>
