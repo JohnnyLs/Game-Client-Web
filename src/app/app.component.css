@@ -1,0 +1,283 @@
+/* Contenedor principal */
+.main-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  
+  background-color: #f5f7fa;
+}
+
+/* Estilos para la barra lateral */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #34495e;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.sidebar-menu {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.sidebar-menu button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-menu button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-menu button.active {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Contenido principal */
+.content {
+  margin-left: 250px;
+  padding: 20px;
+  width: calc(100% - 250px);
+}
+
+/* Reportes */
+.reportes-section {
+  /* puedes agregar overflow si se requiere scroll */
+}
+
+/* Buscador */
+.search-container {
+  display: flex;
+  align-items: center; /* Alinear verticalmente el input y el select */
+  gap: 12px; /* Aumentar ligeramente el espacio para mejor separación */
+  margin-bottom: 24px; /* Ajustar margen para consistencia */
+}
+
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 14px; /* Aumentar padding para mejor usabilidad */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Bordes más redondeados */
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* Sombra suave al hacer foco */
+}
+
+.fecha-select {
+  width: 100%;
+  max-width: 200px; /* Mantener un ancho razonable */
+  padding: 10px 14px; /* Igualar padding con el input */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Bordes redondeados para consistencia */
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none; /* Eliminar estilo nativo del select */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>'); /* Flecha personalizada */
+  background-repeat: no-repeat;
+  background-position: right 14px center; /* Posición de la flecha */
+  background-size: 12px; /* Tamaño de la flecha */
+}
+
+.fecha-select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* Sombra igual al input */
+}
+
+.fecha-select option {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 600px) {
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-input,
+  .fecha-select {
+    max-width: 100%;
+  }
+}
+
+/* Lista de jugadores */
+.players-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Cuadro de jugador */
+.player-card {
+  background: #fdfdfd;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #d8dce2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.player-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 15px 0;
+}
+
+.partidas-container {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Tabla anidada */
+.nested-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.nested-table th,
+.nested-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ffffff;
+  text-align: left;
+}
+
+.nested-table th {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nested-table td {
+  color: #333;
+  white-space: nowrap;
+}
+
+.nested-table tr:last-child td {
+  border-bottom: none;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #e6f0fa;
+}
+
+/* Colores dinámicos para encabezados */
+:host ::ng-deep .nested-table.color-0 thead {
+  background-color: #3498db !important;
+  color: white;
+}
+
+:host ::ng-deep .nested-table.color-1 thead {
+  background-color: #e74c3c !important;
+  color: white;
+}
+
+:host ::ng-deep .nested-table.color-2 thead {
+  background-color: #2ecc71 !important;
+  color: white;
+}
+
+:host ::ng-deep .nested-table.color-3 thead {
+  background-color: #f1c40f !important;
+  color: white;
+}
+
+:host ::ng-deep .nested-table.color-4 thead {
+  background-color: #9b59b6 !important;
+  color: white;
+}
+
+/* Header general */
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+
+/* Estilos personalizados para las columnas "Personaje" y "Fecha" en los thead */
+.nested-table th.personaje-header,
+.nested-table th.fecha-header {
+  background-color: #3498db; /* Puedes personalizar este color */
+  color: white;
+}
+
+.jugadores-section {
+  padding: 20px;
+}

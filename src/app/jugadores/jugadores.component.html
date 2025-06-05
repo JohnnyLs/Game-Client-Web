@@ -1,0 +1,68 @@
+<div class="jugadores-section">
+  <header class="header">
+    <h1>Centro de Administración - Jugadores</h1>
+  </header>
+
+  <!-- Buscador -->
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="filterJugadores()"
+      placeholder="Buscar jugador por nombre..."
+      class="search-input"
+    />
+  </div>
+
+  <!-- Lista de Jugadores -->
+  <div class="players-container">
+    <div *ngFor="let jugador of filteredJugadores" class="player-card">
+      <div class="player-info">
+        <h2 class="player-name">{{ jugador.nombrePerfil }}</h2>
+        <div class="player-actions">
+          <button (click)="openEditModal(jugador)" class="edit-btn">Editar</button>
+          <button (click)="deleteJugador(jugador.idJugador)" class="delete-btn">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para editar jugador -->
+  <div *ngIf="showEditModal" class="modal">
+    <div class="modal-content">
+      <h2>Editar Jugador</h2>
+      <form (ngSubmit)="saveEditedJugador()">
+        <label>
+          Nombre del Perfil:
+          <input
+            type="text"
+            [(ngModel)]="editJugador.nombrePerfil"
+            name="nombrePerfil"
+            required
+            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*"
+            (keypress)="restrictInput($event)"
+            [ngClass]="{'invalid': editJugador.nombrePerfil && !editJugador.nombrePerfil.match('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$')}"
+          />
+          <span
+            *ngIf="editJugador.nombrePerfil && !editJugador.nombrePerfil.match('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$')"
+            class="error-message"
+          >
+            Solo se permiten letras, tildes, ñ y espacios.
+          </span>
+        </label>
+        <!-- General error message -->
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <div class="modal-actions">
+          <button
+            type="submit"
+            class="save-btn"
+            [disabled]="editJugador.nombrePerfil && !editJugador.nombrePerfil.match('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$')"
+          >
+            Guardar
+          </button>
+          <button type="button" (click)="closeEditModal()" class="cancel-btn">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

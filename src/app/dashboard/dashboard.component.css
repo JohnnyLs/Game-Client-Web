@@ -1,0 +1,122 @@
+.dashboard-container {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.chart-card, .table-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  transition: transform 0.2s ease;
+}
+
+.chart-card:hover, .table-card:hover {
+  transform: translateY(-3px);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.chart-card h2, .table-card h2 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0;
+}
+
+.categoria-selector {
+  flex: 0 0 auto;
+}
+
+.categoria-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.categoria-select:focus {
+  outline: none;
+  border-color: #3498db;
+  background-color: #fff;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex; /* Añadimos flexbox para centrar */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+}
+
+.table-card {
+  grid-column: 1 / -1;
+}
+
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.historico-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.historico-table th,
+.historico-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.historico-table th {
+  background-color: #3498db;
+  color: white;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 5px 5px 0 0;
+}
+
+.historico-table td {
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.historico-table tr:hover {
+  background-color: #f1f8ff;
+}
+
+.historico-table tr:last-child td {
+  border-bottom: none;
+}

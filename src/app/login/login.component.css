@@ -1,0 +1,166 @@
+/* Contenedor principal */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('http://www.transparenttextures.com/patterns/brushed-alum-dark.png') repeat, linear-gradient(135deg, #34495e, #1a7bbc); /* Fondo con textura y degradado */
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-size: auto, 100% 100%;
+    background-attachment: fixed;
+  }
+  
+  /* Panel de bienvenida */
+  .welcome-panel {
+    background-color: #ffffff;
+    border-radius: 15px 0 0 15px;
+    padding: 40px;
+    width: 300px;
+    min-height: 350px; /* Altura mínima para igualar el tamaño */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .welcome-panel:hover {
+    transform: translateY(-5px);
+  }
+  
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4a90e2;
+    margin-bottom: 0px;
+    letter-spacing: 1px;
+  }
+  .logo img {
+  width: 200px; /* Ajusta el tamaño según necesites */
+  height: auto;
+  }
+  
+  .welcome-panel h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .welcome-panel p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  
+  /* Panel de formulario */
+  .form-panel {
+    background-color: #34495e;
+    border-radius: 0 15px 15px 0;
+    padding: 40px;
+    width: 300px;
+    min-height: 350px; /* Altura mínima para igualar el tamaño */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .form-panel:hover {
+    transform: translateY(-5px);
+  }
+  
+  .form-panel h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .input-group input {
+    width: 90%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: #333;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .input-group input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.2);
+    background-color: #fff;
+  }
+  
+  .input-group input::placeholder {
+    color: #aaa;
+    font-weight: 400;
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+  }
+  
+  .error-message {
+    color: #ff4d4f;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  /* Responsividad */
+  @media (max-width: 768px) {
+    .login-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .welcome-panel,
+    .form-panel {
+      width: 100%;
+      max-width: 350px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      min-height: 300px; /* Ajustar altura en pantallas pequeñas */
+    }
+  
+    .welcome-panel {
+      border-radius: 15px 15px 0 0;
+    }
+  
+    .form-panel {
+      border-radius: 0 0 15px 15px;
+    }
+  }

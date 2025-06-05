@@ -1,0 +1,104 @@
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+  <div class="stats-grid">
+    <!-- Gráfico de Barras: Top Jugadores -->
+    <div class="chart-card">
+      <h2>Top 5 Jugadores por Puntuación</h2>
+      <div class="chart-container">
+        <canvas
+          *ngIf="showTopJugadoresChart"
+          baseChart
+          [data]="barChartTopJugadores"
+          [options]="barChartOptions"
+          [type]="barChartType"
+        ></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de Barras: Top Jugadores por Categoría -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h2>Top Jugadores por Categoría</h2>
+        <div class="categoria-selector">
+          <select
+            [(ngModel)]="categoriaSeleccionada"
+            (change)="actualizarGraficoCategoria()"
+            class="categoria-select"
+          >
+            <option *ngFor="let categoria of categoriasDisponibles" [value]="categoria">
+              {{ categoria }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas
+          *ngIf="showCategoriaChart"
+          baseChart
+          [data]="barChartCategoria"
+          [options]="barChartCategoriaOptions"
+          [type]="barChartType"
+        ></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de Barras: Jugadores con Más Tiempo Jugado -->
+    <div class="chart-card">
+      <h2>Jugadores con Más Tiempo Jugado</h2>
+      <div class="chart-container">
+        <canvas
+          *ngIf="showHistoricoChart"
+          baseChart
+          [data]="barChartTiempoJugado"
+          [options]="barChartTiempoOptions"
+          [type]="barChartTiempoType"
+        ></canvas>
+      </div>
+    </div>
+
+    <!-- Tabla: Detalles del Histórico de Partidas -->
+    <div class="table-card">
+      <div class="chart-header">
+        <h2>Detalles del Histórico de Partidas</h2>
+        <div class="categoria-selector">
+          <select
+            [(ngModel)]="diaSeleccionado"
+            (change)="filtrarPartidasPorDia()"
+            class="categoria-select"
+          >
+            <option value="">Todos los días</option>
+            <option *ngFor="let dia of diasDisponibles" [value]="dia">
+              {{ dia }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="historico-table">
+          <thead>
+            <tr>
+              
+              <th>Jugador</th>
+              <th>Fecha Inicio</th>
+              <th>Aciertos</th>
+              <th>Errores</th>
+              <th>Tiempo (seg)</th>
+              <th>Puntuación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let partida of partidasFiltradas">
+              
+              <td>{{ partida.nombrePerfil }}</td>
+              <td>{{ partida.fechaInicio | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ partida.aciertosPartida }}</td>
+              <td>{{ partida.erroresPartida }}</td>
+              <td>{{ partida.tiempoTotalPartida }}</td>
+              <td>{{ partida.puntuacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

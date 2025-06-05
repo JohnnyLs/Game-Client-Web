@@ -1,0 +1,114 @@
+<div class="main-container">
+  <!-- Barra lateral -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Administración</h2>
+    </div>
+    <div class="sidebar-menu">
+      <button
+        [ngClass]="{'active': activeTab === 'reportes'}"
+        (click)="setActiveTab('reportes')"
+      >
+        Reportes
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'preguntas'}"
+        (click)="setActiveTab('preguntas')"
+      >
+        Preguntas
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'dashboard'}"
+        (click)="setActiveTab('dashboard')"
+      >
+        Dashboard
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'jugadores'}"
+        (click)="setActiveTab('jugadores')"
+      >
+        Jugadores
+      </button>
+    </div>
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content">
+    <!-- Sección de Reportes -->
+    <div *ngIf="activeTab === 'reportes'" class="reportes-section">
+      <header class="header">
+        <h1>Centro de Administración - Reportes</h1>
+      </header>
+
+      <!-- Buscador -->
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="filterJugadores()"
+          placeholder="Buscar jugador por nombre..."
+          class="search-input"
+        />
+        <select
+          [(ngModel)]="fechaSeleccionada"
+          (change)="filterJugadores()"
+          class="fecha-select"
+        >
+          <option value="">Todas las fechas</option>
+          <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">
+            {{ fecha }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Lista de Jugadores -->
+      <div class="players-container">
+        <div *ngFor="let jugador of filteredJugadores; let i = index" class="player-card">
+          <h2 class="player-name">{{ jugador.nombrePerfil }}</h2>
+          <div class="partidas-container">
+            <div *ngIf="jugador.partidas.length > 0; else noPartidas">
+              <table class="nested-table" [ngClass]="getColorClass(i)">
+                <thead>
+                  <tr>
+                    <th class="personaje-header">Personaje</th>
+                    <th class="fecha-header">Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let partida of jugador.partidas" (click)="goToPartidaDetail(partida)" class="clickable-row">
+                    <td>{{ partida.personaje }}</td>
+                    <td>{{ partida.fechaInicio | date:'medium' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ng-template #noPartidas>
+              <p>No hay partidas.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Preguntas -->
+    <div *ngIf="activeTab === 'preguntas'" class="preguntas-section">
+      <app-preguntas></app-preguntas>
+    </div>
+
+    <!-- Sección de Dashboard -->
+    <div *ngIf="activeTab === 'dashboard'" class="dashboard-section">
+      <header class="header">
+        <h1>Centro de Administración - Dashboard</h1>
+      </header>
+      <app-dashboard [tabChange]="tabChangeSubject.asObservable()"></app-dashboard>
+    </div>
+
+    <!-- Sección de Jugadores -->
+    <div *ngIf="activeTab === 'jugadores'" class="jugadores-section">
+      <app-jugadores></app-jugadores>
+    </div>
+  </div>
+</div>

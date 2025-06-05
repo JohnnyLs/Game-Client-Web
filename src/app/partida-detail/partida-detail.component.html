@@ -1,0 +1,56 @@
+<div class="container" *ngIf="reporte">
+    <h1>Reporte de Partida #{{ reporte.idPartida }}</h1>
+  
+    <!-- Información general -->
+    <div class="info-card">
+      <h2>Información General</h2>
+      <p><strong>Jugador:</strong> {{ reporte.nombrePerfil }}</p>
+      <p><strong>Personaje:</strong> {{ reporte.personaje }}</p>
+      <p><strong>Fecha de Inicio:</strong> {{ reporte.fechaInicio | date:'medium' }}</p>
+      <p><strong>Tiempo Total:</strong> {{ reporte.tiempoTotalPartida }} segundos</p>
+      <p><strong>Aciertos:</strong> {{ reporte.aciertosPartida }}</p>
+      <p><strong>Errores:</strong> {{ reporte.erroresPartida }}</p>
+    </div>
+  
+    <!-- Respuestas -->
+    <div class="respuestas-container">
+      <h2>Respuestas</h2>
+      <table class="respuestas-table">
+        <thead>
+          <tr>
+            
+            <th>Pregunta</th>
+            <th>Opciones</th>
+            <th>Respuesta Correcta</th>
+            <th>Respuesta Dada</th>
+            <th>Correcta</th>
+            <th>Dificultad</th>
+            <th>Categoría</th>
+            <th>Tiempo (s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let respuesta of reporte.respuestas">
+            
+            <td>{{ respuesta.textoPregunta }}</td>
+            <td>{{ respuesta.opciones }}</td>
+            <td>{{ respuesta.respuestaCorrecta }}</td>
+            <td>{{ respuesta.respuestaDada }}</td>
+            <td [ngClass]="respuesta.esCorrecta ? 'correct' : 'incorrect'">
+              {{ respuesta.esCorrecta ? 'Sí' : 'No' }}
+            </td>
+            <td>{{ respuesta.dificultad }}</td>
+            <td>{{ respuesta.categoria }}</td>
+            <td>{{ respuesta.tiempoRespuesta }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Botón para generar PDF -->
+    <button class="pdf-btn" (click)="generatePDF()">Generar PDF</button>
+  </div>
+  
+  <div *ngIf="!reporte" class="loading">
+    <p>Cargando reporte...</p>
+  </div>

@@ -1,0 +1,272 @@
+<div class="preguntas-container">
+    <header class="header">
+      <h1>Gestión de Preguntas</h1>
+      <button class="add-btn" (click)="openCreateForm()">Agregar Pregunta</button>
+    </header>
+  
+    <!-- Filtros -->
+    <div class="filters">
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          placeholder="Buscar pregunta..."
+          class="search-input"
+        />
+      </div>
+      <div class="categoria-container">
+        <select [(ngModel)]="selectedCategoria" (change)="onCategoriaChange()">
+          <option value="">Todas las Categorías</option>
+          <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+        </select>
+      </div>
+    </div>
+  
+<!-- Formulario para crear/editar preguntas -->
+<div class="form-overlay" *ngIf="showForm">
+  <div class="form-container">
+    <h2>{{ isEditing ? 'Editar Pregunta' : 'Nueva Pregunta' }}</h2>
+    <form #preguntaForm="ngForm" (ngSubmit)="savePregunta()">
+      <div class="form-group">
+        <label for="textoPregunta">Texto de la Pregunta:</label>
+        <input
+          type="text"
+          id="textoPregunta"
+          [(ngModel)]="currentPregunta.textoPregunta"
+          name="textoPregunta"
+          required
+          #textoPregunta="ngModel"
+        />
+        <span class="error-message" *ngIf="textoPregunta.invalid && textoPregunta.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="opcion1">Opción 1:</label>
+        <input
+          type="text"
+          id="opcion1"
+          [(ngModel)]="opcion1"
+          name="opcion1"
+          required
+          #opcion1Control="ngModel"
+        />
+        <span class="error-message" *ngIf="opcion1Control.invalid && opcion1Control.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="opcion2">Opción 2:</label>
+        <input
+          type="text"
+          id="opcion2"
+          [(ngModel)]="opcion2"
+          name="opcion2"
+          required
+          #opcion2Control="ngModel"
+        />
+        <span class="error-message" *ngIf="opcion2Control.invalid && opcion2Control.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="opcion3">Opción 3:</label>
+        <input
+          type="text"
+          id="opcion3"
+          [(ngModel)]="opcion3"
+          name="opcion3"
+          required
+          #opcion3Control="ngModel"
+        />
+        <span class="error-message" *ngIf="opcion3Control.invalid && opcion3Control.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="opcion4">Opción 4:</label>
+        <input
+          type="text"
+          id="opcion4"
+          [(ngModel)]="opcion4"
+          name="opcion4"
+          required
+          #opcion4Control="ngModel"
+        />
+        <span class="error-message" *ngIf="opcion4Control.invalid && opcion4Control.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="respuestaCorrecta">Respuesta Correcta:</label>
+        <select
+          id="respuestaCorrecta"
+          [(ngModel)]="currentPregunta.respuestaCorrecta"
+          name="respuestaCorrecta"
+          required
+          #respuestaCorrectaControl="ngModel"
+        >
+          <option value="" disabled>Selecciona una opción</option>
+          <option *ngIf="opcion1" [value]="opcion1">{{ opcion1 }}</option>
+          <option *ngIf="opcion2" [value]="opcion2">{{ opcion2 }}</option>
+          <option *ngIf="opcion3" [value]="opcion3">{{ opcion3 }}</option>
+          <option *ngIf="opcion4" [value]="opcion4">{{ opcion4 }}</option>
+        </select>
+        <span class="error-message" *ngIf="respuestaCorrectaControl.invalid && respuestaCorrectaControl.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="dificultad">Dificultad:</label>
+        <select
+          id="dificultad"
+          [(ngModel)]="currentPregunta.dificultad"
+          name="dificultad"
+          required
+          #dificultadControl="ngModel"
+        >
+          <option value="" disabled>Selecciona una dificultad</option>
+          <option value="Fácil">Fácil</option>
+          <option value="Medio">Medio</option>
+          <option value="Difícil">Difícil</option>
+        </select>
+        <span class="error-message" *ngIf="dificultadControl.invalid && dificultadControl.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="tiempoLimite">Tiempo Límite (segundos):</label>
+        <input
+          type="number"
+          id="tiempoLimite"
+          [(ngModel)]="currentPregunta.tiempoLimite"
+          name="tiempoLimite"
+          required
+          min="1"
+          #tiempoLimiteControl="ngModel"
+        />
+        <span class="error-message" *ngIf="tiempoLimiteControl.invalid && tiempoLimiteControl.touched">
+          Este campo es obligatorio y debe ser mayor que 0.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="categoria">Categoría:</label>
+        <select
+          id="categoria"
+          name="categoria"
+          (change)="onCategoriaSelect($event)"
+          [ngModel]="showNuevaCategoriaInput ? 'otra' : currentPregunta.categoria"
+          required
+          #categoriaControl="ngModel"
+        >
+          <option value="" disabled>Selecciona una categoría</option>
+          <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+          <option value="otra">Otra</option>
+        </select>
+        <span class="error-message" *ngIf="categoriaControl.invalid && categoriaControl.touched">
+          Este campo es obligatorio.
+        </span>
+        <input
+          *ngIf="showNuevaCategoriaInput"
+          type="text"
+          id="nuevaCategoria"
+          [(ngModel)]="nuevaCategoria"
+          name="nuevaCategoria"
+          placeholder="Ingresa una nueva categoría"
+          required
+        />
+        <span class="error-message" *ngIf="showNuevaCategoriaInput && !nuevaCategoria && preguntaForm.submitted">
+          Por favor, ingresa una nueva categoría.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="costoEnergia">Costo de Energía:</label>
+        <input
+          type="number"
+          id="costoEnergia"
+          [(ngModel)]="currentPregunta.costoEnergia"
+          name="costoEnergia"
+          required
+          min="1"
+          #costoEnergiaControl="ngModel"
+        />
+        <span class="error-message" *ngIf="costoEnergiaControl.invalid && costoEnergiaControl.touched">
+          Este campo es obligatorio y debe ser mayor que 0.
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado:</label>
+        <select
+          id="estado"
+          [(ngModel)]="currentPregunta.estado"
+          name="estado"
+          required
+          #estadoControl="ngModel"
+        >
+          <option value="" disabled>Selecciona un estado</option>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+        <span class="error-message" *ngIf="estadoControl.invalid && estadoControl.touched">
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="error-message" *ngIf="preguntaForm.submitted && preguntaForm.invalid">
+        Por favor, completa todos los campos obligatorios.
+      </div>
+      <div class="form-buttons">
+        <button type="submit" class="save-btn" [disabled]="preguntaForm.invalid">
+          {{ isEditing ? 'Guardar Cambios' : 'Crear Pregunta' }}
+        </button>
+        <button type="button" class="cancel-btn" (click)="cancelForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+  
+ <!-- Tabla de preguntas -->
+<div class="table-container">
+  <table class="preguntas-table">
+    <thead>
+      <tr>
+    
+        <th>Texto Pregunta</th>
+        <th>Opciones</th>
+        <th>Respuesta</th>
+        <th>Dificultad</th>
+        <th>Tiempo(s)</th>
+        <th>Categoría</th>
+        <th>Costo Energía</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pregunta of filteredPreguntas" [ngClass]="{'inactive-row': pregunta.estado === 'inactivo'}">
+        
+        <td>{{ pregunta.textoPregunta }}</td>
+        <td>{{ pregunta.opciones }}</td>
+        <td>{{ pregunta.respuestaCorrecta }}</td>
+        <td>{{ pregunta.dificultad }}</td>
+        <td>{{ pregunta.tiempoLimite }}</td>
+        <td>{{ pregunta.categoria }}</td>
+        <td>{{ pregunta.costoEnergia }}</td>
+        <td>{{ pregunta.estado }}</td>
+        <td>
+          <div class="action-buttons">
+            <button class="action-btn edit-btn" (click)="openEditForm(pregunta)" title="Editar">
+              <span class="icon">✏️</span>
+            </button>
+            <button class="action-btn delete-btn" (click)="deletePregunta(pregunta.idPregunta!)" title="Eliminar">
+              <span class="icon">🗑️</span>
+            </button>
+            <button class="action-btn toggle-btn" (click)="toggleEstado(pregunta)" title="{{ pregunta.estado === 'activo' ? 'Deshabilitar' : 'Habilitar' }}">
+              <span class="icon">{{ pregunta.estado === 'activo' ? '🔴' : '🟢' }}</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

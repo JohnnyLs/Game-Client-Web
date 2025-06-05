@@ -1,0 +1,23 @@
+<div class="login-container">
+  <div class="welcome-panel">
+    <div class="logo">
+      <img src="assets/images/escudo_escuela.png" alt="Logo Escuela" />
+    </div>
+    <h2>Hola, bienvenido!</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi risus.</p>
+  </div>
+
+  <div class="form-panel">
+    <h2>Iniciar Sesión</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Usuario" [(ngModel)]="username" name="username" required />
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Contraseña" [(ngModel)]="password" name="password" required />
+      </div>
+      <button type="submit" class="login-button">Iniciar Sesión</button>
+    </form>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </div>
+</div>
