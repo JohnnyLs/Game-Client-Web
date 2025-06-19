@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://game-server-2.onrender.com/api/'
+  apiBaseUrl: 'https://server-mic-videojuego-1059486069178.us-central1.run.app/api/'
 };

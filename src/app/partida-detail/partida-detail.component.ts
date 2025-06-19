@@ -42,6 +42,14 @@ export class PartidaDetailComponent implements OnInit {
       }
     });
   }
+  // New method to calculate score
+  getPuntajeTotal(): string {
+    if (!this.reporte) return '0';
+    const totalPreguntas = this.reporte.aciertosPartida + this.reporte.erroresPartida;
+    if (totalPreguntas === 0) return '0';
+    const puntaje = (this.reporte.aciertosPartida / totalPreguntas) * 10;
+    return puntaje.toFixed(2); // Round to 2 decimal places
+  }
 
   generatePDF(): void {
     if (!this.reporte) return;
@@ -84,6 +92,8 @@ export class PartidaDetailComponent implements OnInit {
     doc.text(`Aciertos: ${this.reporte.aciertosPartida}`, 10, yOffset);
     yOffset += 6;
     doc.text(`Errores: ${this.reporte.erroresPartida}`, 10, yOffset);
+    yOffset += 15;
+    doc.text(`Puntaje Total: ${this.getPuntajeTotal()}`, 10, yOffset); 
     yOffset += 15;
 
     // Tabla de respuestas
