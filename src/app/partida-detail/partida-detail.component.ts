@@ -59,100 +59,107 @@ export class PartidaDetailComponent implements OnInit {
   }
 
   generatePDF(): void {
-    if (!this.reporte) return;
+      if (!this.reporte) return;
 
-    const doc = new jsPDF();
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
 
-    
-    const imgWidth = pageWidth; // Ancho completo de la página
-    const imgHeight = 54; // Altura ajustada para que coincida con la proporción de la imagen (ajústala según tu imagen)
-    doc.addImage(this.headerImageBase64, 'PNG', 0, 0, imgWidth, imgHeight);
+      const imgWidth = pageWidth; // Ancho completo de la página
+      const imgHeight = 54; // Altura ajustada para que coincida con la proporción de la imagen
+      doc.addImage(this.headerImageBase64, 'PNG', 0, 0, imgWidth, imgHeight);
 
-    
-    let yOffset = imgHeight + 10;
+      let yOffset = imgHeight + 10;
 
-    // Contenido del documento
-    // Información general
-    doc.setTextColor(0, 0, 0); // Texto negro
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Información General', 10, yOffset);
-    yOffset += 5;
+      // Contenido del documento
+      // Información general
+      doc.setTextColor(0, 0, 0); // Texto negro
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Información General', 10, yOffset);
+      yOffset += 5;
 
-    doc.setLineWidth(0.2);
-    doc.setDrawColor(74, 144, 226);
-    doc.line(10, yOffset, 50, yOffset);
+      doc.setLineWidth(0.2);
+      doc.setDrawColor(74, 144, 226);
+      doc.line(10, yOffset, 50, yOffset);
 
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'normal');
-    yOffset += 8;
-    doc.text(`Jugador: ${this.reporte.nombrePerfil}`, 10, yOffset);
-    yOffset += 6;
-    doc.text(`Personaje: ${this.reporte.personaje}`, 10, yOffset);
-    yOffset += 6;
-    doc.text(`Fecha de Inicio: ${new Date(this.reporte.fechaInicio).toLocaleString()}`, 10, yOffset);
-    yOffset += 6;
-    doc.text(`Tiempo Total: ${this.reporte.tiempoTotalPartida} segundos`, 10, yOffset);
-    yOffset += 6;
-    doc.text(`Aciertos: ${this.reporte.aciertosPartida}`, 10, yOffset);
-    yOffset += 6;
-    doc.text(`Errores: ${this.reporte.erroresPartida}`, 10, yOffset);
-    yOffset += 15;
-    doc.text(`Puntaje Total: ${this.getPuntajeTotal()}`, 10, yOffset); 
-    yOffset += 15;
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      yOffset += 8;
+      doc.text(`Jugador: ${this.reporte.nombrePerfil}`, 10, yOffset);
+      yOffset += 6;
+      doc.text(`Personaje: ${this.reporte.personaje}`, 10, yOffset);
+      yOffset += 6;
+      doc.text(`Fecha de Inicio: ${new Date(this.reporte.fechaInicio).toLocaleString()}`, 10, yOffset);
+      yOffset += 6;
+      doc.text(`Tiempo Total: ${this.reporte.tiempoTotalPartida} segundos`, 10, yOffset);
+      yOffset += 6;
+      doc.text(`Aciertos: ${this.reporte.aciertosPartida}`, 10, yOffset);
+      yOffset += 6;
+      doc.text(`Errores: ${this.reporte.erroresPartida}`, 10, yOffset);
+      yOffset += 15;
+      doc.text(`Puntaje Total: ${this.getPuntajeTotal()}`, 10, yOffset); 
+      yOffset += 15;
 
-    // Tabla de respuestas
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Respuestas', 10, yOffset);
-    yOffset += 5;
+      // Tabla de respuestas
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Respuestas', 10, yOffset);
+      yOffset += 5;
 
-    doc.setLineWidth(0.2);
-    doc.line(10, yOffset, 40, yOffset);
-    yOffset += 5;
+      doc.setLineWidth(0.2);
+      doc.line(10, yOffset, 40, yOffset);
+      yOffset += 5;
 
-    const tableData = this.reporte.respuestas.map(respuesta => [
-      //respuesta.idRespuesta.toString(),
-      respuesta.textoPregunta,
-      respuesta.opciones,
-      respuesta.respuestaCorrecta,
-      respuesta.respuestaDada,
-      respuesta.esCorrecta ? 'Sí' : 'No',
-      respuesta.dificultad,
-      respuesta.categoria,
-      respuesta.tiempoRespuesta.toString()
-    ]);
+      const tableData = this.reporte.respuestas.map(respuesta => [
+          respuesta.textoPregunta,
+          respuesta.opciones,
+          respuesta.respuestaCorrecta,
+          respuesta.respuestaDada,
+          respuesta.esCorrecta ? 'Sí' : 'No',
+          respuesta.dificultad,
+          respuesta.categoria,
+          respuesta.tiempoRespuesta.toString()
+      ]);
 
-    autoTable(doc, {
-      head: [['Pregunta', 'Opciones', 'Respuesta Correcta', 'Respuesta Dada', 'Correcta', 'Dificultad', 'Categoría', 'Tiempo (s)']],
-      body: tableData,
-      startY: yOffset,
-      styles: {
-        fontSize: 9,
-        cellPadding: 3,
-        overflow: 'linebreak'
-      },
-      headStyles: {
-        fillColor: [74, 144, 226],
-        textColor: [255, 255, 255],
-        fontStyle: 'bold'
-      },
-      alternateRowStyles: {
-        fillColor: [240, 240, 240]
-      },
-      margin: { top: imgHeight + 10 },
-      didDrawPage: (data) => {
-        // Añadir la imagen del encabezado en cada página
-        doc.addImage(this.headerImageBase64, 'PNG', 0, 0, imgWidth, imgHeight);
-        // Pie de página
-        doc.setFontSize(10);
-        doc.setTextColor(150);
-        doc.text(`Página ${doc.getCurrentPageInfo().pageNumber}`, pageWidth - 20, pageHeight - 10, { align: 'right' });
-      }
-    });
+      autoTable(doc, {
+          head: [['Pregunta', 'Opciones', 'Respuesta Correcta', 'Respuesta Dada', 'Correcta', 'Dificultad', 'Categoría', 'Tiempo (s)']],
+          body: tableData,
+          startY: yOffset,
+          styles: {
+              fontSize: 9,
+              cellPadding: 3,
+              overflow: 'linebreak'
+          },
+          headStyles: {
+              fillColor: [74, 144, 226],
+              textColor: [255, 255, 255],
+              fontStyle: 'bold'
+          },
+          alternateRowStyles: {
+              fillColor: [240, 240, 240]
+          },
+          margin: { top: imgHeight + 10, left: 5, right: 5 }, 
+          columnStyles: {
+              0: { cellWidth: 50 }, 
+              1: { cellWidth: 35 },
+              2: { cellWidth: 22 }, 
+              3: { cellWidth: 25 }, 
+              4: { cellWidth: 15 }, 
+              5: { cellWidth: 15 }, 
+              6: { cellWidth: 23 }, 
+              7: { cellWidth: 15 }  
+          },
+          didDrawPage: (data) => {
+              // Añadir la imagen del encabezado en cada página
+              doc.addImage(this.headerImageBase64, 'PNG', 0, 0, imgWidth, imgHeight);
+              // Pie de página
+              doc.setFontSize(10);
+              doc.setTextColor(150);
+              doc.text(`Página ${doc.getCurrentPageInfo().pageNumber}`, pageWidth - 20, pageHeight - 10, { align: 'right' });
+          }
+      });
 
-    doc.save(`reporte-partida-${this.reporte.idPartida}.pdf`);
+      doc.save(`reporte-partida-${this.reporte.idPartida}.pdf`);
   }
 }
