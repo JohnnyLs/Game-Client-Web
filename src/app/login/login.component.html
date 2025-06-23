@@ -11,13 +11,43 @@
     <h2>Iniciar Sesión</h2>
     <form (ngSubmit)="onSubmit()">
       <div class="input-group">
-        <input type="text" id="username" placeholder="Usuario" [(ngModel)]="username" name="username" required />
+        <input
+          type="text"
+          id="username"
+          placeholder="Usuario"
+          [(ngModel)]="username"
+          name="username"
+          required
+          [disabled]="isLoading"
+        />
       </div>
       <div class="input-group">
-        <input type="password" id="password" placeholder="Contraseña" [(ngModel)]="password" name="password" required />
+        <input
+          type="password"
+          id="password"
+          placeholder="Contraseña"
+          [(ngModel)]="password"
+          name="password"
+          required
+          [disabled]="isLoading"
+        />
       </div>
-      <button type="submit" class="login-button">Iniciar Sesión</button>
+      <button
+        type="submit"
+        class="login-button"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Cargando...' : 'Iniciar Sesión' }}
+      </button>
     </form>
     <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </div>
+
+  <!-- Modal de carga -->
+  <div *ngIf="isLoading" class="loading-modal" role="alert" aria-live="polite">
+    <div class="modal-content">
+      <div class="spinner"></div>
+      <p class="loading-message">Procesando...</p>
+    </div>
   </div>
 </div>
