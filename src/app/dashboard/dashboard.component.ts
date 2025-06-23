@@ -1,11 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewInit, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgApexchartsModule } from 'ng-apexcharts'; // Importa el módulo de ApexCharts
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsModule } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { EstadisticasService } from '../services/estadisticas.service';
 
-// Definimos la interfaz para las opciones de ApexCharts
 interface ChartOptions {
   series: Array<{ name: string; data: number[] }>;
   chart: {
@@ -40,7 +39,7 @@ interface ChartOptions {
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  imports: [CommonModule, NgApexchartsModule, FormsModule], // Cambia NgChartsModule por NgApexchartsModule
+  imports: [CommonModule, NgApexchartsModule, FormsModule],
   standalone: true,
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -60,7 +59,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   showCategoriaChart = true;
   showHistoricoChart = true;
 
-  // Gráfico de barras: Top Jugadores
   public barChartTopJugadores: ChartOptions = {
     series: [{ name: 'Puntuación', data: [] }],
     chart: { type: 'bar', height: 300, toolbar: { show: false } },
@@ -84,7 +82,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   };
 
-  // Gráfico de barras: Top Jugadores por Categoría
   public barChartCategoria: ChartOptions = {
     series: [{ name: '', data: [] }],
     chart: { type: 'bar', height: 300, toolbar: { show: false } },
@@ -108,7 +105,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   };
 
-  // Gráfico de barras: Jugadores con más tiempo jugado
   public barChartTiempoJugado: ChartOptions = {
     series: [{ name: 'Tiempo Jugado (segundos)', data: [] }],
     chart: { type: 'bar', height: 300, toolbar: { show: false } },
@@ -173,9 +169,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   cargarEstadisticas(): void {
     this.estadisticasService.getTopJugadores(5).subscribe({
       next: (data) => {
-        this.topJugadores = data;
-        this.barChartTopJugadores.xaxis.categories = data.map((jugador: any) => jugador.nombrePerfil);
-        this.barChartTopJugadores.series[0].data = data.map((jugador: any) => jugador.puntuacion);
+        this.topJugadores = data.map(jugador => ({
+          ...jugador,
+          puntuacion: this.getPuntajeTotal({ aciertosPartida: jugador.aciertosTotales, erroresPartida: jugador.erroresTotales }),
+        }));
+        this.barChartTopJugadores.xaxis.categories = this.topJugadores.map(jugador => jugador.nombrePerfil);
+        this.barChartTopJugadores.series[0].data = this.topJugadores.map(jugador => parseFloat(jugador.puntuacion));
         this.rebuildCharts();
       },
       error: (err) => {
@@ -290,5 +289,17 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       literatura: '#8e44ad',
     };
     return borderColors[categoria.toLowerCase()] || '#7f8c8d';
+  }
+
+  // Método para calcular el puntaje de una partida
+  getPuntajeTotal(partida: any): string {
+    const totalPreguntas = partida.aciertosPartida + partida.erroresPartida;
+    if (totalPreguntas === 0) return '0.00';
+    let puntaje = (partida.aciertosPartida / totalPreguntas) * 10;
+    if (puntaje < 10) {
+      puntaje += 1;
+    }
+    puntaje = Math.min(puntaje, 10);
+    return puntaje.toFixed(2);
   }
 }

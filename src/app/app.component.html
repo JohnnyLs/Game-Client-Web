@@ -64,6 +64,11 @@
         </select>
       </div>
 
+      <!-- Contenedor para el botón centrado -->
+      <div class="pdf-btn-container">
+        <button class="pdf-btn" (click)="generateReportePDF()">Generar Reporte PDF</button>
+      </div>
+
       <!-- Lista de Jugadores -->
       <div class="players-container">
         <div *ngFor="let jugador of filteredJugadores; let i = index" class="player-card">

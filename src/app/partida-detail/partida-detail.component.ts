@@ -47,8 +47,15 @@ export class PartidaDetailComponent implements OnInit {
     if (!this.reporte) return '0';
     const totalPreguntas = this.reporte.aciertosPartida + this.reporte.erroresPartida;
     if (totalPreguntas === 0) return '0';
-    const puntaje = (this.reporte.aciertosPartida / totalPreguntas) * 10;
-    return puntaje.toFixed(2); // Round to 2 decimal places
+    let puntaje = (this.reporte.aciertosPartida / totalPreguntas) * 10;
+    // Sumar 1 punto si el puntaje es menor a 10
+    if (puntaje < 10) {
+      puntaje += 1.5;
+    }
+    // Asegurar que el puntaje no exceda 10
+    puntaje = Math.min(puntaje, 10);
+    return puntaje.toFixed(2);
+
   }
 
   generatePDF(): void {

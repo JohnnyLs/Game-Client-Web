@@ -281,3 +281,25 @@
 .jugadores-section {
   padding: 20px;
 }
+
+/* Contenedor para centrar el botón */
+.pdf-btn-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  margin-bottom: 20px; /* Mantiene el espacio inferior */
+}
+
+.pdf-btn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pdf-btn:hover {
+  background-color: #2980b9;
+}
